@@ -3,6 +3,8 @@
   <context confirmationNeeded="false" hide="false" name="Default"/>
   <parameters>
     <elementParameter field="CLOSED_LIST" name="LOG4J_RUN_LEVEL" value="Info" show="false"/>
+    <elementParameter field="TEXT" name="JOB_RUN_VM_ARGUMENTS" value="{&quot;JOB_RUN_VM_ARGUMENTS&quot;:[&quot;-Xms256M&quot;,&quot;-Xmx1024M&quot;]}" show="false"/>
+    <elementParameter field="CHECK" name="JOB_RUN_VM_ARGUMENTS_OPTION" value="true" show="false"/>
     <elementParameter field="TEXT" name="SCREEN_OFFSET_X" value="0" show="false"/>
     <elementParameter field="TEXT" name="SCREEN_OFFSET_Y" value="0" show="false"/>
     <elementParameter field="TEXT" name="REPOSITORY_CONNECTION_ID" value="" show="false"/>
@@ -99,14 +101,15 @@
     <elementParameter field="TEXT" name="FOOTER_CODE" value="" show="false"/>
     <elementParameter field="TEXT" name="FOOTER_IMPORT" value="" show="false"/>
   </parameters>
-  <node componentName="tSleep" componentVersion="0.102" offsetLabelX="50" offsetLabelY="37" posX="520" posY="80">
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tSleep_1" show="false"/>
-    <elementParameter field="TEXT" name="PAUSE" value="10000"/>
+  <node componentName="tJava" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="400" posY="160">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJava_1" show="false"/>
+    <elementParameter field="MEMO_EDITOR_JAVA" name="CODE" value="String storeType = System.getProperty(&quot;javax.net.ssl.trustStoreType&quot;, &quot;JKS&quot;);&#xD;&#xA;String storeFile = System.getProperty(&quot;javax.net.ssl.trustStore&quot;, &quot;cacerts&quot;);&#xD;&#xA;String storePass = System.getProperty(&quot;javax.net.ssl.trustStorePassword&quot;, &quot;changeit&quot;);&#xD;&#xA;TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());&#xD;&#xA;&#xD;&#xA;KeyStore ks = KeyStore.getInstance(System.getProperty(&quot;javax.net.ssl.trustStoreType&quot;, &quot;JKS&quot;));&#xD;&#xA;ks.load(new FileInputStream(storeFile), storePass.toCharArray () );&#xD;&#xA;trustManagerFactory.init((KeyStore) null);&#xD;&#xA;&#xD;&#xA;List&lt;TrustManager> trustManagers = Arrays.asList(trustManagerFactory.getTrustManagers());&#xD;&#xA;List&lt;X509Certificate> certificates = trustManagers.stream()&#xD;&#xA;&#x9;.filter(X509TrustManager.class::isInstance)&#xD;&#xA;&#x9;.map(X509TrustManager.class::cast)&#xD;&#xA;&#x9;.map(trustManager -> Arrays.asList(trustManager.getAcceptedIssuers()))&#xD;&#xA;&#x9;.flatMap(Collection::stream)&#xD;&#xA;&#x9;.collect(Collectors.toList());&#xD;&#xA;&#xD;&#xA;for (X509Certificate cert : certificates) {&#xD;&#xA;&#x9;System.out.println(&quot;Certificate: &quot; + cert);&#xD;&#xA;}"/>
+    <elementParameter field="MEMO_EDITOR_IMPORT" name="IMPORT" value="//import java.util.List;&#xA;import java.io.FileInputStream;&#xA;import java.security.KeyStore;&#xA;import java.security.cert.X509Certificate;&#xA;&#xA;import java.util.Arrays;&#xA;import java.util.Collection;&#xA;import java.util.stream.Collectors;&#xA;import javax.net.ssl.TrustManager;&#xA;import javax.net.ssl.TrustManagerFactory;&#xA;import javax.net.ssl.X509TrustManager;"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata connector="FLOW" name="tSleep_1"/>
+    <metadata connector="FLOW" name="tJava_1"/>
   </node>
   <subjob>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tSleep_1" show="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJava_1" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="93;174;241" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_COLOR" value="93;174;241"/>
   </subjob>
